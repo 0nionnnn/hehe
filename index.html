@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Important 👀</title>
+    <link rel="stylesheet" href="invite.css">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+
+
+</head>
+<body>
+<img src="images/cat.png" id="catPeek">
+<audio id="bgMusic" autoplay loop>
+    <source src="audio/cute.mp3" type="audio/mp3">
+</audio>
+
+<!-- 1 Landing -->
+<section id="landing">
+    <h1>⚠️ WARNING</h1>
+    <p>continue at your own risk</p>
+    <button id="startBtn">continue</button>
+</section>
+
+<!-- 2 Lead -->
+<section id="leadIn" class="hidden">
+    <p>ok real quick…</p>
+    <button id="toQuestion">continue</button>
+</section>
+
+<!-- 3 Question -->
+<section id="question" class="hidden">
+    <p>free ka this coming april? hehe</p>
+    <button id="yesBtn">Yes 😌</button>
+    <button id="noBtn">No 😭</button>
+</section>
+
+<!-- 4 Yes Card -->
+<section id="yesCard" class="hidden">
+    <div class="card">
+        <p>HEHEHE</p>
+        <p>okay plan ko na to HAHAHA</p>
+        <p>i’ll message you the details hehe</p>
+        <button id="chooseDateBtn">choose a day</button>
+    </div>
+</section>
+
+<!-- 5 Choose Date -->
+<section id="chooseDate" class="hidden">
+    <div class="card">
+        <p>pick a day you’re free 😳</p>
+        <button class="dateBtn">4</button>
+        <button class="dateBtn">5</button>
+        <button class="dateBtn">11</button>
+        <button class="dateBtn">12</button>
+        <button class="dateBtn">18</button>
+        <button class="dateBtn">19</button>
+        <button class="dateBtn">25</button>
+        <button class="dateBtn">26</button>
+    </div>
+</section>
+
+<!-- 6 Confirmation -->
+<section id="confirmation" class="hidden">
+    <div class="card">
+        <p>Got it! 😎</p>
+        <p>I’ll mark April <span id="chosenDate"></span> in my calendar 😭💖</p>
+        <p>now the hard part… actually showing up 😏</p>
+        <p>can’t wait hehe 💖</p>
+    </div>
+</section>
+
+<script>
+// helper to switch screens
+function showSection(current, next) {
+    current.classList.add("hidden");
+    next.classList.remove("hidden");
+}
+
+// elements
+const landing = document.getElementById("landing");
+const leadIn = document.getElementById("leadIn");
+const question = document.getElementById("question");
+const yesCard = document.getElementById("yesCard");
+const chooseDate = document.getElementById("chooseDate");
+const confirmation = document.getElementById("confirmation");
+
+// buttons
+document.getElementById("startBtn").onclick = () => {
+    showSection(landing, leadIn);
+};
+
+document.getElementById("toQuestion").onclick = () => {
+    showSection(leadIn, question);
+};
+
+document.getElementById("yesBtn").onclick = () => {
+    showSection(question, yesCard);
+
+    // CAT POPS UP 🐱
+    setTimeout(() => {
+        cat.style.bottom = "20px"; // peek up
+    }, 300);
+
+    // CAT GOES DOWN AFTER 2.5s
+    setTimeout(() => {
+        cat.style.bottom = "-200px";
+    }, 2800);
+};
+
+document.getElementById("chooseDateBtn").onclick = () => {
+    showSection(yesCard, chooseDate);
+};
+
+const dateButtons = document.querySelectorAll(".dateBtn");
+const chosenDateSpan = document.getElementById("chosenDate");
+
+dateButtons.forEach(btn => {
+    btn.onclick = () => {
+        chosenDateSpan.textContent = btn.textContent;
+        showSection(chooseDate, confirmation);
+    };
+});
+
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+const cat = document.getElementById("catPeek");
+const music = document.getElementById("bgMusic");
+
+// FIX autoplay (browser restriction)
+document.body.addEventListener("click", () => {
+    music.play().catch(() => {});
+}, { once: true });
+</script>
+
+</body>
+</html>
