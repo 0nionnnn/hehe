@@ -171,6 +171,7 @@ vibeButtons.forEach(btn => {
     btn.onclick = () => {
         chosenVibe.textContent = btn.textContent;
         showSection(vibeSelect, confirmation);
+        sendData("yes");
     };
 });
 
@@ -221,10 +222,24 @@ noBtn.addEventListener("click", () => {
                 <p>but let me know if you change your mind! 💖</p>
             </div>
         `;
+        sendData("no");
     }
 });
 
-
+function sendData(answer) {
+    fetch("https://formspree.io/f/abcxyz", { // replace with YOUR link
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            answer: answer,
+            date: chosenDateSpan.textContent,
+            food: chosenFood.textContent,
+            vibe: chosenVibe.textContent
+        })
+    });
+}
 
 // FIX autoplay (browser restriction)
 document.body.addEventListener("click", () => {
