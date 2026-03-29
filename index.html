@@ -71,13 +71,33 @@
     </div>
 </section>
 
+<section id="foodInput" class="hidden">
+    <div class="card">
+        <p>random question… what are you craving lately? 😳</p>
+        <input type="text" id="foodField" placeholder="type anything hehe">
+        <button id="toVibe">continue</button>
+    </div>
+</section>
+
+<section id="vibeSelect" class="hidden">
+    <div class="card">
+        <p>what kind of date are we feeling? 😌</p>
+
+        <button class="vibeBtn">fancy 🍷</button>
+        <button class="vibeBtn">chill 🌿</button>
+        <button class="vibeBtn">nature 🌄</button>
+        <button class="vibeBtn">surprise me 😏</button>
+    </div>
+</section>
+
 <!-- 6 Confirmation -->
 <section id="confirmation" class="hidden">
     <div class="card">
         <p>Got it! 😎</p>
-        <p>I’ll mark April <span id="chosenDate"></span> in my calendar 😭💖</p>
-        <p>now the hard part… actually showing up 😏</p>
-        <p>can’t wait hehe 💖</p>
+        <p>April <span id="chosenDate"></span> it is 💖</p>
+        <p>noted… <span id="chosenFood"></span> 👀</p>
+        <p>i’ll plan something <span id="chosenVibe"></span> hehe 😏</p>
+        <p>can’t wait 💖</p>
     </div>
 </section>
 
@@ -96,6 +116,14 @@ const yesCard = document.getElementById("yesCard");
 const chooseDate = document.getElementById("chooseDate");
 const confirmation = document.getElementById("confirmation");
 const hamster = document.getElementById("hamsterPeek");
+const cat = document.getElementById("catPeek");
+const music = document.getElementById("bgMusic");
+const foodInput = document.getElementById("foodInput");
+const vibeSelect = document.getElementById("vibeSelect");
+
+const foodField = document.getElementById("foodField");
+const chosenFood = document.getElementById("chosenFood");
+const chosenVibe = document.getElementById("chosenVibe");
 
 // buttons
 document.getElementById("startBtn").onclick = () => {
@@ -109,12 +137,10 @@ document.getElementById("toQuestion").onclick = () => {
 document.getElementById("yesBtn").onclick = () => {
     showSection(question, yesCard);
 
-    // CAT POPS UP 🐱
     setTimeout(() => {
-        cat.style.bottom = "20px"; // peek up
+        cat.style.bottom = "20px"; 
     }, 300);
 
-    // CAT GOES DOWN AFTER 2.5s
     setTimeout(() => {
         cat.style.bottom = "-200px";
     }, 2800);
@@ -124,13 +150,27 @@ document.getElementById("chooseDateBtn").onclick = () => {
     showSection(yesCard, chooseDate);
 };
 
+document.getElementById("toVibe").onclick = () => {
+    chosenFood.textContent = foodField.value || "something good 😏";
+    showSection(foodInput, vibeSelect);
+};
+
 const dateButtons = document.querySelectorAll(".dateBtn");
 const chosenDateSpan = document.getElementById("chosenDate");
 
 dateButtons.forEach(btn => {
     btn.onclick = () => {
         chosenDateSpan.textContent = btn.textContent;
-        showSection(chooseDate, confirmation);
+        showSection(chooseDate, foodInput);
+    };
+});
+
+const vibeButtons = document.querySelectorAll(".vibeBtn");
+
+vibeButtons.forEach(btn => {
+    btn.onclick = () => {
+        chosenVibe.textContent = btn.textContent;
+        showSection(vibeSelect, confirmation);
     };
 });
 
@@ -141,10 +181,8 @@ let initialized = false;
 
 noBtn.addEventListener("mouseover", () => {
 
-    // after 3 attempts → STOP moving
     if (attempts >= 3) return;
 
-    // first hover → lock position smoothly
     if (!initialized) {
         const rect = noBtn.getBoundingClientRect();
 
@@ -155,7 +193,6 @@ noBtn.addEventListener("mouseover", () => {
         initialized = true;
     }
 
-    // move randomly
     const x = Math.random() * (window.innerWidth - 100);
     const y = Math.random() * (window.innerHeight - 50);
 
@@ -164,15 +201,12 @@ noBtn.addEventListener("mouseover", () => {
 
     attempts++;
 
-// trigger hamster AFTER 3rd attempt
 if (attempts === 3) {
 
-    // hamster drops down 🐹
     setTimeout(() => {
         hamster.style.top = "20px";
     }, 200);
 
-    // hamster goes back up
     setTimeout(() => {
         hamster.style.top = "-200px";
     }, 2500);
@@ -181,7 +215,6 @@ if (attempts === 3) {
 
 noBtn.addEventListener("click", () => {
     if (attempts >= 3) {
-        // show a sweet message instead
         question.innerHTML = `
             <div class="card">
                 <p>that’s understandable 😌</p>
@@ -191,8 +224,7 @@ noBtn.addEventListener("click", () => {
     }
 });
 
-const cat = document.getElementById("catPeek");
-const music = document.getElementById("bgMusic");
+
 
 // FIX autoplay (browser restriction)
 document.body.addEventListener("click", () => {
